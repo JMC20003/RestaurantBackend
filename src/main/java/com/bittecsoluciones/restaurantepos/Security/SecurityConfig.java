@@ -27,7 +27,8 @@ public class SecurityConfig {
             "/swagger-ui.html",
             "/webjars/**",
             "/api/auth/login",
-            "/api/auth/register"
+            "/api/auth/register",
+            "/api/**"
     };
 
     private final UserDetailsServiceImpl userDetailsService;
