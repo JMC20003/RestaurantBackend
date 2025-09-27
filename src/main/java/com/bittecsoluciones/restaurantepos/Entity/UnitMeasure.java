@@ -21,7 +21,7 @@ public class UnitMeasure {
     @Column(length = 10, nullable = false)
     private String abbreviation;
 
-    private Boolean active;
+    private Boolean active = true;
 
     @OneToMany(mappedBy = "unitMeasure", fetch = FetchType.LAZY)
     private Set<Ingredient> ingredients;
