@@ -17,7 +17,7 @@ public class PaymentMethod {
     @Column(nullable = false, length = 50)
     private String name;
 
-    private Boolean active;
+    private Boolean active = true;
 
     @OneToMany(mappedBy = "paymentMethod", fetch = FetchType.LAZY)
     private Set<Payment> payments;

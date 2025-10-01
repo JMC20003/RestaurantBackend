@@ -5,6 +5,7 @@ import com.bittecsoluciones.restaurantepos.Repository.UserRepository;
 import com.bittecsoluciones.restaurantepos.Service.UserService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
+        user.setCreatedAt(LocalDateTime.now());
         return userRepository.save(user);
     }
 

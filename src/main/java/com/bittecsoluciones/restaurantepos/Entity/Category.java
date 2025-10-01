@@ -31,7 +31,7 @@ public class Category {
     private Boolean active = true;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
