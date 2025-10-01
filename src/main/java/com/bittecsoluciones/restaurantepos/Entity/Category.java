@@ -28,10 +28,10 @@ public class Category {
     @Column(length = 250)
     private String image;
 
-    private Boolean active;
+    private Boolean active = true;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;

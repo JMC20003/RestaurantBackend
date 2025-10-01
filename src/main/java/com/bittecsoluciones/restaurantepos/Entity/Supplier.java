@@ -30,10 +30,10 @@ public class Supplier {
     @Column(columnDefinition = "text")
     private String address;
 
-    private Boolean active;
+    private Boolean active = true;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY)
     private Set<Ingredient> ingredients;

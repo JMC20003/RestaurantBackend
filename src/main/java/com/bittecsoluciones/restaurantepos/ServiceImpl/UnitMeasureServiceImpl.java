@@ -42,7 +42,6 @@ public class UnitMeasureServiceImpl implements UnitMeasureService {
         existing.setName(unitMeasure.getName());
         existing.setAbbreviation(unitMeasure.getAbbreviation() ) ;
         existing.setActive(unitMeasure.getActive());
-        // 👆 pon aquí los atributos que tenga tu entidad
 
         return unitMeasureRepository.save(existing);
     }
