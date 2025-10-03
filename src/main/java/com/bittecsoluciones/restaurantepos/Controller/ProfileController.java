@@ -2,6 +2,7 @@ package com.bittecsoluciones.restaurantepos.Controller;
 
 import com.bittecsoluciones.restaurantepos.DTOs.ProfileResponse;
 import com.bittecsoluciones.restaurantepos.DTOs.UpdateProfileRequest;
+import com.bittecsoluciones.restaurantepos.Entity.Customer;
 import com.bittecsoluciones.restaurantepos.Entity.User;
 import com.bittecsoluciones.restaurantepos.Repository.UserRepository;
 import com.bittecsoluciones.restaurantepos.ServiceImpl.UserPrincipal;
@@ -21,6 +22,7 @@ public class ProfileController {
     private final UserRepository userRepository;
 
     private ProfileResponse mapToProfileResponse(User user) {
+        Customer customer = user.getCustomer();
         return new ProfileResponse(
                 user.getId(),
                 user.getUsername(),
@@ -30,7 +32,9 @@ public class ProfileController {
                 user.getPhone(),
                 user.getUserRoles().stream()
                         .map(ur -> ur.getRole().getName())
-                        .collect(Collectors.toSet())
+                        .collect(Collectors.toSet()),
+                customer != null ? customer.getBirthDate() : null,
+                customer != null ? customer.getLoyaltyPoints() : 0
         );
     }
 
@@ -58,17 +62,18 @@ public class ProfileController {
         User user = userRepository.findById(userDetails.getId())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        UserPrincipal userDetails = (UserPrincipal) auth.getPrincipal();
-//
-//        User user = userRepository.findByUsername(userDetails.getUsername())
-//                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
+        // Editar datos del User
         user.setName(req.getName());
         user.setLastname(req.getLastname());
         user.setPhone(req.getPhone());
         user.setEmail(req.getEmail());
 
+        // Editar datos del Customer asociado
+        Customer customer = user.getCustomer();
+        if (customer != null) {
+            if (req.getBirthDate() != null) customer.setBirthDate(req.getBirthDate());
+            if (req.getLoyaltyPoints() != null) customer.setLoyaltyPoints(req.getLoyaltyPoints());
+        }
         userRepository.save(user);
 
         return ResponseEntity.ok(mapToProfileResponse(user));

@@ -2,7 +2,9 @@ package com.bittecsoluciones.restaurantepos.Controller;
 
 import com.bittecsoluciones.restaurantepos.DTOs.ProfileResponse;
 import com.bittecsoluciones.restaurantepos.DTOs.UpdateProfileRequest;
+import com.bittecsoluciones.restaurantepos.Entity.Customer;
 import com.bittecsoluciones.restaurantepos.Entity.User;
+import com.bittecsoluciones.restaurantepos.Repository.CustomerRepository;
 import com.bittecsoluciones.restaurantepos.Repository.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,19 +21,24 @@ import java.util.stream.Collectors;
 public class AdminUserController {
 
     private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
 
     private ProfileResponse mapToProfileResponse(User user) {
-        return new ProfileResponse(
-                user.getId(),
-                user.getUsername(),
-                user.getName(),
-                user.getLastname(),
-                user.getEmail(),
-                user.getPhone(),
-                user.getUserRoles().stream()
+        var customer = customerRepository.findByUser(user).orElse(null);
+
+        return ProfileResponse.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .name(user.getName())
+                .lastname(user.getLastname())
+                .email(user.getEmail())
+                .phone(user.getPhone())
+                .roles(user.getUserRoles().stream()
                         .map(ur -> ur.getRole().getName())
-                        .collect(Collectors.toSet())
-        );
+                        .collect(Collectors.toSet()))
+                .birthDate(customer != null ? customer.getBirthDate() : null)
+                .loyaltyPoints(customer != null ? customer.getLoyaltyPoints() : null)
+                .build();
     }
 
     @GetMapping

@@ -4,10 +4,8 @@ import com.bittecsoluciones.restaurantepos.DTOs.AdminCreateUserRequest;
 import com.bittecsoluciones.restaurantepos.DTOs.JwtResponse;
 import com.bittecsoluciones.restaurantepos.DTOs.LoginRequest;
 import com.bittecsoluciones.restaurantepos.DTOs.RegisterRequest;
-import com.bittecsoluciones.restaurantepos.Entity.Role;
-import com.bittecsoluciones.restaurantepos.Entity.User;
-import com.bittecsoluciones.restaurantepos.Entity.UserRole;
-import com.bittecsoluciones.restaurantepos.Entity.UserRoleId;
+import com.bittecsoluciones.restaurantepos.Entity.*;
+import com.bittecsoluciones.restaurantepos.Repository.CustomerRepository;
 import com.bittecsoluciones.restaurantepos.Repository.RoleRepository;
 import com.bittecsoluciones.restaurantepos.Repository.UserRepository;
 import com.bittecsoluciones.restaurantepos.Security.JwtUtils;
@@ -39,6 +37,7 @@ public class AuthController {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CustomerRepository customerRepository;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
@@ -95,6 +94,8 @@ public class AuthController {
         // 3. Guardar el usuario primero para generar el ID
         User savedUser = userRepository.save(user);
 
+
+
         // 4. Crear la relación UserRole
         UserRole userRole = new UserRole(savedUser, roleCustomer);
 
@@ -103,8 +104,18 @@ public class AuthController {
         roles.add(userRole);
         savedUser.setUserRoles(roles);
 
-        // 6. Guardar de nuevo con el rol asignado
-        userRepository.save(savedUser);
+        // Crear registro en tabla Customer
+        Customer customer = Customer.builder()
+                .name(user.getName())
+                .lastname(user.getLastname())
+                .phone(user.getPhone())
+                .email(user.getEmail())
+                .address(user.getAddress())
+                .loyaltyPoints(0)
+                .createdAt(LocalDateTime.now())
+                .user(savedUser)
+                .build();
+        customerRepository.save(customer);
 
         return ResponseEntity.ok("Usuario registrado exitosamente con rol CUSTOMER");
     }

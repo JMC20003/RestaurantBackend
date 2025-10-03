@@ -34,6 +34,9 @@ public class Customer {
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
+    @Column(name = "loyaltyPoints")
+    private Integer loyaltyPoints;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
