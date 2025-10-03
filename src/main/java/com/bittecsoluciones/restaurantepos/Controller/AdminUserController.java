@@ -1,8 +1,7 @@
 package com.bittecsoluciones.restaurantepos.Controller;
 
-import com.bittecsoluciones.restaurantepos.DTOs.ProfileResponse;
-import com.bittecsoluciones.restaurantepos.DTOs.UpdateProfileRequest;
-import com.bittecsoluciones.restaurantepos.Entity.Customer;
+import com.bittecsoluciones.restaurantepos.DTOs.Auth.ProfileResponse;
+import com.bittecsoluciones.restaurantepos.DTOs.Auth.UpdateProfileRequest;
 import com.bittecsoluciones.restaurantepos.Entity.User;
 import com.bittecsoluciones.restaurantepos.Repository.CustomerRepository;
 import com.bittecsoluciones.restaurantepos.Repository.UserRepository;

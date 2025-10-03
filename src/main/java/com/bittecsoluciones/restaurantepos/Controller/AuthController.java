@@ -1,9 +1,9 @@
 package com.bittecsoluciones.restaurantepos.Controller;
 
-import com.bittecsoluciones.restaurantepos.DTOs.AdminCreateUserRequest;
-import com.bittecsoluciones.restaurantepos.DTOs.JwtResponse;
-import com.bittecsoluciones.restaurantepos.DTOs.LoginRequest;
-import com.bittecsoluciones.restaurantepos.DTOs.RegisterRequest;
+import com.bittecsoluciones.restaurantepos.DTOs.Auth.AdminCreateUserRequest;
+import com.bittecsoluciones.restaurantepos.DTOs.Auth.JwtResponse;
+import com.bittecsoluciones.restaurantepos.DTOs.Auth.LoginRequest;
+import com.bittecsoluciones.restaurantepos.DTOs.Auth.RegisterRequest;
 import com.bittecsoluciones.restaurantepos.Entity.*;
 import com.bittecsoluciones.restaurantepos.Repository.CustomerRepository;
 import com.bittecsoluciones.restaurantepos.Repository.RoleRepository;

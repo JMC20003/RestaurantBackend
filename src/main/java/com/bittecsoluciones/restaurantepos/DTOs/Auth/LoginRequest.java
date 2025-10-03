@@ -1,4 +1,4 @@
-package com.bittecsoluciones.restaurantepos.DTOs;
+package com.bittecsoluciones.restaurantepos.DTOs.Auth;
 
 import lombok.Getter;
 import lombok.Setter;

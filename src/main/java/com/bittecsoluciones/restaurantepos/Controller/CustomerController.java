@@ -1,7 +1,7 @@
 package com.bittecsoluciones.restaurantepos.Controller;
 
-import com.bittecsoluciones.restaurantepos.DTOs.CustomerResponse;
-import com.bittecsoluciones.restaurantepos.DTOs.UpdateCustomerRequest;
+import com.bittecsoluciones.restaurantepos.DTOs.Auth.CustomerResponse;
+import com.bittecsoluciones.restaurantepos.DTOs.Auth.UpdateCustomerRequest;
 import com.bittecsoluciones.restaurantepos.Entity.Customer;
 import com.bittecsoluciones.restaurantepos.Entity.User;
 import com.bittecsoluciones.restaurantepos.Repository.CustomerRepository;
@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/customers")
+@RequestMapping("/api/customer")
 @RequiredArgsConstructor
 public class CustomerController {
 
     private final CustomerRepository customerRepository;
 
     // 1. Listar todos los clientes
-    @GetMapping
+    @GetMapping("/list")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<CustomerResponse>> getAllCustomers() {
         List<CustomerResponse> customers = customerRepository.findAll()

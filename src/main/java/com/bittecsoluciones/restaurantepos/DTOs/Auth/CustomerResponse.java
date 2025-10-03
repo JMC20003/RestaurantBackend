@@ -1,9 +1,8 @@
-package com.bittecsoluciones.restaurantepos.DTOs;
+package com.bittecsoluciones.restaurantepos.DTOs.Auth;
 
 import com.bittecsoluciones.restaurantepos.Entity.Customer;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public record CustomerResponse(
         Long id,

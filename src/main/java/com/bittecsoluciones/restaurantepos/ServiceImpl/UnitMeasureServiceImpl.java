@@ -29,6 +29,7 @@ public class UnitMeasureServiceImpl implements UnitMeasureService {
 
     @Override
     public UnitMeasure createUnitMeasure(UnitMeasure unitMeasure) {
+        unitMeasure.setActive(true);
         return unitMeasureRepository.save(unitMeasure);
     }
 

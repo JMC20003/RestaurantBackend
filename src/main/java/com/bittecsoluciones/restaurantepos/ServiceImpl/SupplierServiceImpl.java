@@ -29,6 +29,7 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public Supplier createSupplier(Supplier supplier) {
+        supplier.setActive(true);
         supplier.setCreatedAt(LocalDateTime.now());
         return supplierRepository.save(supplier);
     }

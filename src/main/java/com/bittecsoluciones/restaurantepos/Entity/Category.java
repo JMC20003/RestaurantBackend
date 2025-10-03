@@ -28,7 +28,7 @@ public class Category {
     @Column(length = 250)
     private String image;
 
-    private Boolean active = true;
+    private Boolean active;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

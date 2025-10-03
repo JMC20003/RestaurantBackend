@@ -30,7 +30,7 @@ public class Supplier {
     @Column(columnDefinition = "text")
     private String address;
 
-    private Boolean active = true;
+    private Boolean active;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();

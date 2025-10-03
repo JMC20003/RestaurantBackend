@@ -1,6 +1,6 @@
 package com.bittecsoluciones.restaurantepos.Controller;
 
-import com.bittecsoluciones.restaurantepos.DTOs.EmailRequest;
+import com.bittecsoluciones.restaurantepos.DTOs.Auth.EmailRequest;
 import com.bittecsoluciones.restaurantepos.Entity.Supplier;
 import com.bittecsoluciones.restaurantepos.Exceptions.ResourceNotFoundException;
 import com.bittecsoluciones.restaurantepos.Service.SupplierService;

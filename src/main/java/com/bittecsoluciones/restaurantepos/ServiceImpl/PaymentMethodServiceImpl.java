@@ -30,6 +30,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
     @Override
     public PaymentMethod createPaymentMethod(PaymentMethod paymentMethod) {
+        paymentMethod.setActive(true);
         return paymentMethodRepository.save(paymentMethod);
     }
 

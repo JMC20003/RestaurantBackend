@@ -30,6 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category createCategory(Category category) {
+        category.setActive(true);
         category.setCreatedAt(LocalDateTime.now());
         return categoryRepository.save(category);
     }
