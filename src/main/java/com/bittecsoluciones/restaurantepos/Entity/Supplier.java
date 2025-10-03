@@ -37,5 +37,8 @@ public class Supplier {
 
     @OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY)
     private Set<Ingredient> ingredients;
+
+    @OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY)
+    private Set<Purchase> purchases;
 }
 

@@ -52,4 +52,7 @@ public class Ingredient {
 
     @OneToMany(mappedBy = "ingredient", fetch = FetchType.LAZY)
     private Set<InventoryMovement> inventoryMovements;
+
+    @OneToMany(mappedBy = "ingredient", fetch = FetchType.LAZY)
+    private Set<PurchaseDetail> purchaseDetails;
 }
