@@ -2,11 +2,14 @@ package com.bittecsoluciones.restaurantepos.ServiceImpl;
 
 import com.bittecsoluciones.restaurantepos.DTOs.InventoryMovementRequestDTO;
 import com.bittecsoluciones.restaurantepos.DTOs.InventoryMovementResponseDTO;
+import com.bittecsoluciones.restaurantepos.Entity.Ingredient;
 import com.bittecsoluciones.restaurantepos.Entity.InventoryMovement;
+import com.bittecsoluciones.restaurantepos.Entity.User;
 import com.bittecsoluciones.restaurantepos.Repository.IngredientRepository;
 import com.bittecsoluciones.restaurantepos.Repository.InventoryMovementRepository;
 import com.bittecsoluciones.restaurantepos.Repository.UserRepository;
 import com.bittecsoluciones.restaurantepos.Service.InventoryMovementService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,15 +28,11 @@ public class InventoryMovementImpl implements InventoryMovementService {
     @Autowired
     private UserRepository userRepository;
 
-    private InventoryMovementResponseDTO mapToDTO(InventoryMovement m) {
-        return InventoryMovementResponseDTO.from(m);
-    }
 
     @Override
     public List<InventoryMovementResponseDTO> getAllInventoryMovements() {
-        return movementRepository.findAll()
-                .stream()
-                .map(this::mapToDTO)
+        return movementRepository.findAll().stream()
+                .map(InventoryMovementResponseDTO::from)
                 .toList();
     }
 
@@ -41,18 +40,26 @@ public class InventoryMovementImpl implements InventoryMovementService {
     public InventoryMovementResponseDTO getInventoryMovementById(Long id) {
         var movement = movementRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Movimiento no encontrado"));
-        return mapToDTO(movement);
+        return InventoryMovementResponseDTO.from(movement);
     }
 
     @Override
+    @Transactional
     public InventoryMovementResponseDTO createInventoryMovement(InventoryMovementRequestDTO inventoryMovementRequestDTO) {
-        var ingredient = ingredientRepository.findById(inventoryMovementRequestDTO.ingredientId())
+        Ingredient ingredient = ingredientRepository.findById(inventoryMovementRequestDTO.ingredientId())
                 .orElseThrow(() -> new RuntimeException("Ingrediente no encontrado"));
 
-        var user = userRepository.findById(inventoryMovementRequestDTO.userId())
+        User user = userRepository.findById(inventoryMovementRequestDTO.userId())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        var movement = InventoryMovement.builder()
+        // ajustar stock
+        if (inventoryMovementRequestDTO.movementType().equalsIgnoreCase("Entrada")) {
+            ingredient.setCurrentStock(ingredient.getCurrentStock().add(inventoryMovementRequestDTO.quantity()));
+        } else if (inventoryMovementRequestDTO.movementType().equalsIgnoreCase("Salida")) {
+            ingredient.setCurrentStock(ingredient.getCurrentStock().subtract(inventoryMovementRequestDTO.quantity()));
+        }
+
+        InventoryMovement movement = InventoryMovement.builder()
                 .ingredient(ingredient)
                 .movementType(inventoryMovementRequestDTO.movementType())
                 .quantity(inventoryMovementRequestDTO.quantity())
@@ -64,17 +71,8 @@ public class InventoryMovementImpl implements InventoryMovementService {
                 .movementDate(LocalDateTime.now())
                 .build();
 
-        // Actualizar stock del ingrediente
-        if ("Salida".equalsIgnoreCase(inventoryMovementRequestDTO.movementType())) {
-            ingredient.setCurrentStock(ingredient.getCurrentStock().subtract(inventoryMovementRequestDTO.quantity()));
-        } else if ("Entrada".equalsIgnoreCase(inventoryMovementRequestDTO.movementType())) {
-            ingredient.setCurrentStock(ingredient.getCurrentStock().add(inventoryMovementRequestDTO.quantity()));
-        }
-
-        ingredientRepository.save(ingredient);
-
         var saved = movementRepository.save(movement);
-        return mapToDTO(saved);
+        return InventoryMovementResponseDTO.from(saved);
     }
 
     @Override

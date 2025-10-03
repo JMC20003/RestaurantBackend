@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/inventory-movements")
+@RequestMapping("/api/inventory-movement")
 @RequiredArgsConstructor
 public class InventoryMovementController {
 
     private final InventoryMovementService movementService;
 
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<List<InventoryMovementResponseDTO>> getAllMovements() {
         return ResponseEntity.ok(movementService.getAllInventoryMovements());
     }
@@ -26,7 +26,7 @@ public class InventoryMovementController {
         return ResponseEntity.ok(movementService.getInventoryMovementById(id));
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<InventoryMovementResponseDTO> createMovement(@RequestBody InventoryMovementRequestDTO dto) {
         return ResponseEntity.ok(movementService.createInventoryMovement(dto));
     }
