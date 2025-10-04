@@ -30,7 +30,7 @@ public class InventoryMovementController {
     public ResponseEntity<InventoryMovementResponseDTO> createMovement(@RequestBody InventoryMovementRequestDTO dto) {
         return ResponseEntity.ok(movementService.createInventoryMovement(dto));
     }
-
+    //no se usa
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteMovement(@PathVariable Long id) {
         movementService.deleteInventoryMovement(id);

@@ -28,7 +28,8 @@ public class SecurityConfig {
             "/webjars/**",
             "/api/auth/login",
             "/api/auth/register",
-            "/api/**"
+            "/api/**",
+            "/ws/**"
     };
 
     private final UserDetailsServiceImpl userDetailsService;
