@@ -21,6 +21,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     private final SupplierRepository supplierRepository;
     private final UserRepository userRepository;
     private final IngredientRepository ingredientRepository;
+    private final InventoryMovementRepository inventoryMovementRepository;
 
     @Override
     public List<PurchaseResponseDTO> getAllPurchases() {
@@ -80,6 +81,23 @@ public class PurchaseServiceImpl implements PurchaseService {
 
         purchase.setTotal(total);
         var saved = purchaseRepository.save(purchase);
+        // ⚡ Ahora creamos los movimientos de inventario
+        for (PurchaseDetail detail : saved.getDetails()) {
+            InventoryMovement movement = InventoryMovement.builder()
+                    .ingredient(detail.getIngredient())
+                    .movementType("Entrada")
+                    .quantity(detail.getQuantity())
+                    .unitCost(detail.getUnitCost())
+                    .referenceType("Purchase")
+                    .referenceId(saved.getId().intValue()) // relación con la compra
+                    .notes("Compra registrada: " + saved.getNotes())
+                    .user(saved.getCreatedBy())
+                    .movementDate(LocalDateTime.now())
+                    .build();
+
+            inventoryMovementRepository.save(movement);
+        }
+
 
         return PurchaseResponseDTO.from(saved);
     }

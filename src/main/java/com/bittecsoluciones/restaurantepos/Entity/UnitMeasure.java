@@ -1,6 +1,7 @@
 package com.bittecsoluciones.restaurantepos.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,5 +25,6 @@ public class UnitMeasure {
     private Boolean active;
 
     @OneToMany(mappedBy = "unitMeasure", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Ingredient> ingredients;
 }

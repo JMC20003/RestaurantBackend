@@ -1,5 +1,6 @@
 package com.bittecsoluciones.restaurantepos.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,9 +37,11 @@ public class Supplier {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Ingredient> ingredients;
 
     @OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Purchase> purchases;
 }
 
